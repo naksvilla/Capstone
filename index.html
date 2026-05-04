@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- This loads the Python runner -->
+    <link rel="stylesheet" href="https://pyscript.net">
+    <script type="module" src="https://pyscript.net"></script>
+</head>
+<body>
+    <h1>Python GPS Tracker</h1>
+    <button id="get-pos">Show My Location</button>
+    <div id="output">Coordinates will appear here...</div>
+
+    <script type="py">
+        from pyscript import display, when
+        from js import navigator
+
+        @when("click", "#get-pos")
+        def get_location(event):
+            def success(pos):
+                coords = pos.coords
+                display(f"Lat: {coords.latitude}, Lon: {coords.longitude}", target="output", append=False)
+
+            def error(err):
+                display(f"Error: {err.message}", target="output")
+
+            navigator.geolocation.getCurrentPosition(success, error)
+    </script>
+</body>
+</html>
